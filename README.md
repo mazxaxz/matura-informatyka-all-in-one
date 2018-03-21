@@ -4,10 +4,10 @@
 <ol>
   <li><a href="#ogolna-informatyka">Ogólna informatyka</a></li>
   <li><a href="#algorytmy-warte-uwagi">Algorytmy warte uwagi</a></li>
-  <li><a href="#c-cheatsheet">C++ cheatsheet</a></li>
+  <li><a href="#c">C++ cheatsheet</a></li>
   <li><a href="#java-cheatsheet">Java cheatsheet</a></li>
   <li><a href="#excel">Excel</a></li>
-  <li><a href="#access-sql">Access / SQL</a></li>
+  <li><a href="#access">Access / SQL</a></li>
   <li><a href="#rozwiazania-arkuszy">Rozwiązania arkuszy</a>
     <ul>
       <li><a href="#2015">2015</a></li>
@@ -63,7 +63,8 @@ TBA
   | D           | Film 1, Film 4, Film 2               |
 
   *Przykładowy przebieg algorytmu dla strategii C*
-  *Obraz*
+
+  ![strategiac](https://user-images.githubusercontent.com/32012952/37739227-c844128e-2d59-11e8-97f8-d448865f8d60.png)
   
   ---
   
@@ -72,7 +73,7 @@ TBA
   Podajemy 4 filmy, z ktorych wedlug algorytmu widz obejrzy 2, natomiast moze obejrzec 3
   `Strategia A`
 
-  *Obraz*
+  ![1](https://user-images.githubusercontent.com/32012952/37739229-c935999c-2d59-11e8-832a-96962491ddf3.png)
 
   | Stacja | Film i godziny emisji      | Czas trwania |
   | ------ | -------------------------- | ------------ |
@@ -87,7 +88,7 @@ TBA
 
   `Strategia B`
 
-  *Obraz*
+  ![2](https://user-images.githubusercontent.com/32012952/37739231-ca140d3a-2d59-11e8-8b4f-7538eb4fc3b1.png)
 
   | Stacja | Film i godziny emisji      | Czas trwania |
   | ------ | -------------------------- | ------------ |
@@ -102,7 +103,7 @@ TBA
 
   `Strategia C`
 
-  *Obraz*
+  ![3](https://user-images.githubusercontent.com/32012952/37739236-cb00fe56-2d59-11e8-8f40-f5b348571f69.png)
 
   | Stacja | Film i godziny emisji      | Czas trwania |
   | ------ | -------------------------- | ------------ |
