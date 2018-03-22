@@ -192,7 +192,7 @@ TBA
   * **3.1**
     Uzupełnij tabele -> a = 188, b = 12
 
-    **//Obraz//**
+    ![tabela](https://user-images.githubusercontent.com/32012952/37783708-72f1a362-2df6-11e8-87ca-5a412f8a564a.png)
 
 ---
 
@@ -218,7 +218,200 @@ TBA
     **#4** = x - (a div b) * y  
 
 ---
+### Praktyka
+---
 
+**4. Liczby binarne**
+  * **4.1**  
+  ```
+  > Zapisujemy każdą linijke z pliku do tablicy[n]
+  > Piszemy funkcje zwracającą ilość liczb w ktorych jest więcej zer niż jedynek
+  > Zapisujemy do pliku tekstowego wynik funkcji
+  ```
+
+  Funkcje sprawdzającą w C++ można napisać w ten sposob:
+  ```cpp
+  int getCountWhereMoreZeros(string *nums, int si) { // Argumentami są: wskaźnik na tablice oraz jej wielkość
+    int moreZerosCount = 0;                          // Inicjujemy ilość szukanych liczb z wartością startową
+    int oneCounter, zeroCounter, index;              // Licznik jedynek, dwojek oraz
+                                                     // obecny index sprawdzanego stringa
+    for (int i = 0; i < si; i++) {
+      oneCounter = 0;                                // Za każdym powtorzeniem pętli
+      zeroCounter = 0;                               // Zmienne się zerują
+      index = 0;
+
+      while (nums[i][index]) {                       // Sprawdzamy każdy znak
+        if (nums[i][index] == '1')                   // Dopoki nie trafimy na \0
+          oneCounter++;
+        else
+          zeroCounter++;
+
+        index++;
+      }
+                                                     // Po sprawdzeniu ciągu znakow
+      if (zeroCounter > oneCounter)                  // sprawdzamy czy zer jest
+        moreZerosCount++;                            // więcej od jedynek
+    }
+
+    return moreZerosCount;                           // Zwracamy ilość wyrazow
+  }
+  ```
+---
+
+  * **4.2**  
+  ```
+  > Sprawdzamy podzielność liczb podzielnych przez 2 oraz 8
+  > Liczba binarna jest podzielna przez 2 jeżeli ostatni znak jest zerem
+  > Liczba binarna jest podzielna przez 8 jeżeli 3 ostatnie znaki są zerami
+  > Wypisujemy ilość takich liczb
+  ```
+
+  Funkcje sprawdzającą czy liczba jest podzielna przez 2 w C++ można zapisać w ten sposob:
+  ```cpp
+  int getEvenNumbersCount(string *nums, int si) { // Wskaźnik na tablice i wielkość
+    int evenNumber = 0;                           // Ilość startowa liczb parzystych
+    int lastIndex;                                // Ostatni znak ciągu
+
+    for (int i = 0; i < si; i++) {
+      lastIndex = nums[i].size() - 1;             // Inicjujemy ostatni znak ciągu
+                                                  // z każdym powtorzeniem pętli
+      if (nums[i][lastIndex] == '0')              // Jeżeli ostatni znak jest zerem
+        evenNumber++;                             // inkrementuj ilość liczb parzystych
+    }
+
+    return evenNumber;                            // Zwracamy ilość liczb parzystych
+  }
+  ```
+
+  Natomiast funkcje wypisującą liczby podzielne przez 8 w ten sposob:
+  ```cpp
+  int getEightCount(string *nums, int si) {             // To samo co w poprzednich
+    int eightDiv = 0;                                   // przypadkach
+    int lastIndex;                                      //
+    bool isDivided;                                     // Zmienna logiczna podzielności
+
+    for (int i = 0; i < si; i++) {
+      lastIndex = nums[i].size() - 1;                   // Z każdą iteracją inicjujemy ostatni index
+      isDivided = true;                                 // oraz zmienna logiczną
+
+      for (int j = lastIndex; j > lastIndex - 3; j--) { // Odwrotna pętla 
+        if (nums[i][j] == '1')                          // Sprawdzająca czy ktoryś z
+          isDivided = false;                            // 3 ostatnich znakow
+      }                                                 // rowna się 1, jeżeli tak
+                                                        // to isDivided = false
+      if (isDivided)                                    // Jeżeli jest podzielna
+        eightDiv++;                                     // inkrementujemy ilość tych liczb
+    }
+
+    return eightDiv;                                    // Zwracamy ilość liczb
+  }
+  ```
+---
+
+  * **4.3**
+  ```
+  > Szukamy najmniejszej i największej liczby
+  > Najmniejsza posiada najmniej wyrazow, i ma najwięcej zer z tych wyrazow ktore mają tą samą długość
+  > Największa ma najwięcej tych wyrazow oraz najwięcej jedynek
+  > Podajemy numer linii tych wyrazow
+  ```
+
+  Funkcja wyszukująca wartość najmniejszą zaimplementowana w C++:
+  ```cpp
+  int getMinLine(string *nums, int si) {          // Wskaźnik na tablice oraz jej wielkość
+    int minIndex = 0;                             // Startowy indeks liczby najmniejszej
+    string minValue = nums[0];                    // Startowa wartość liczby najmniejszej
+
+    for (int i = 1; i < si; i++) {                // Zaczynamy od 2 wartości tablicy
+      if (nums[i].size() < minValue.size()) {     // Jeżeli długość obecnego wyrazu jest mniejsza
+        minValue = nums[i];                       // od długości najmniejszego znalezionego wyrazu
+        minIndex = i;                             // Nadpisujemy najmniejsze wartości obecnymi
+      } else {
+        if (nums[i].size() == minValue.size()) {  // Jeżeli długość jest taka sama
+          if (nums[i] < minValue) {               // Porownujemy leksykalnie obecna wartośc i najmniejszą
+            minValue = nums[i];                   // Jeżeli obecna jest mniejsza nadpisujemy
+            minIndex = i;                         // najmniejsze wartości obecnymi
+          }
+        }
+      }
+    }
+
+    return (minIndex + 1);                        // Zwracamy indeks najmniejszego dodając jeden
+  }                                               // ponieważ indeks tablicy jest liczony od zera
+  ```
+  
+  Funkcja wyszukująca wartość największą zaimplementowana w C++:
+  ```cpp
+  int getMaxLine(string *nums, int si) {          // To samo co wyżej
+    int maxIndex = 0;
+    string maxValue = nums[0];
+
+    for (int i = 1; i < si; i++) {                // Pętla działa na tej samej zasadzie
+      if (nums[i].size() > maxValue.size()) {     // Tylko tutaj sprawdzamy czy obecna wartość
+        maxValue = nums[i];                       // jest większa
+        maxIndex = i;
+      } else {
+        if (nums[i].size() == maxValue.size()) {
+          if (nums[i] > maxValue) {               // To samo co wyżej
+            maxValue = nums[i];
+            maxIndex = i;
+          }
+        }
+      }
+    }
+    return (maxIndex + 1);
+  }
+  ```
+---
+
+**5. Demografia**
+  * **5.1**
+  ```
+  > Wyznaczamy ludność wszystkich mieszkańcow każdego z regionow w roku 2013
+  > Sporządzamy wykres kolumnowy porownujący ludność regionow
+
+  Wojewodztwo || kobiety w 2013 || mężczyźni w 2013 || kobiety w 2014 || mężczyźni w 2014
+  ```
+
+  Do wyznaczania ludności można wyznaczyć przy pomocy formuły  
+  `=SUMA.JEŻELI(A1:A50;"*A";B1:B50)+SUMA.JEŻELI(A1:A50;"*A";C1:C50)` dla woj. A  
+  `=SUMA.JEŻELI(A1:A50;"*B";B1:B50)+SUMA.JEŻELI(A1:A50;"*B";C1:C50)` dla woj. B  
+  `=SUMA.JEŻELI(A1:A50;"*C";B1:B50)+SUMA.JEŻELI(A1:A50;"*C";C1:C50)` dla woj. C  
+  `=SUMA.JEŻELI(A1:A50;"*D";B1:B50)+SUMA.JEŻELI(A1:A50;"*D";C1:C50)` dla woj. D  
+
+  Wykres:
+
+  ![wykres](https://user-images.githubusercontent.com/32012952/37787311-f38cb3d8-2dfe-11e8-97cd-fa4d0fcbd87f.PNG)
+
+---
+  * **5.2**
+  ```
+  > Podajemy liczbe wojewodztw w ktorych liczba kobiet w 2014 roku była większa niż w 2013  
+    i jednocześnie liczba mężczyzn w 2014 roku była większa niż w 2013
+  ```
+
+  Na początek wyznaczamy ktore wojewodztwo spełniło warunek formułą:  
+  `=JEŻELI(ORAZ(C1 < E1; B1 < D1);"TAK";"NIE")`  
+  następnie zliczamy dla każdego wojewodztwa ilość wystąpień `TAK` formułą:  
+  `=LICZ.WARUNKI(F1:F50; "TAK"; A1:A50; "*A")` dla wojewodztwa A  
+  `=LICZ.WARUNKI(F1:F50; "TAK"; A1:A50; "*B")` dla wojewodztwa B  
+  `=LICZ.WARUNKI(F1:F50; "TAK"; A1:A50; "*C")` dla wojewodztwa C  
+  `=LICZ.WARUNKI(F1:F50; "TAK"; A1:A50; "*D")` dla wojewodztwa D  
+  i na koniec zliczamy ilość wszystkich wystąpień
+
+---
+  * **5.3**
+  ```
+  > Mamy podać liczbę wszystkich mieszkańcow w 2025 roku i wskazać, ktore wojewodztwo bedzie miało najwięcej  
+    mieszkańcow w tym roku
+  > Mamy też podać ilość wojewodztw w ktorych nastąpi efekt przeludnienia w latach 2014-2025 włącznie
+  ```
+
+  TBA
+
+---
+**6. Formuła 1**  
+TBA
 ## 2016
 
 ## 2017
