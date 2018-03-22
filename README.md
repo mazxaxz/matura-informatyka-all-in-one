@@ -284,7 +284,201 @@ long naivePowerMod(int a, int b, int n) {
 
 
 ## C++ cheatsheet
-TBA
+### Biblioteki
+* `Include <string>` -> do operacji na stringach
+* `Include <iostream>` -> cin, cout
+* `Include <fstream>` -> Odczyt i zapis plikow
+* `Inlcude <cstdlib>` -> funkcje: exit(), atof(), atoi(), itoa(), rand()...
+* `Include <time.h>` -> do operacji na czasie oraz generowania liczb pseudolosowych
+* `Include <math.h>` -> funkcje matematyczne typu sqrt() czy pow()
+
+### Syntax
+**Pętla for**
+```cpp
+for (int i = 0; i < 10; i++)
+  cout << i << endl;
+
+for (int i = 0; i < 20; i++) {
+  if (i % 2 == 0)
+    break;                    // Przerwanie pętli
+}
+```
+
+
+**Pętla While**
+```cpp
+int i = 10;
+while (i > 10) {
+  cout << i << endl;
+  i++;
+}
+```
+
+**Switch**
+```cpp
+switch(x) {
+  case 1:
+    cout << "1" << endl;
+    break;
+  case 2:
+    cout << "2" << endl;
+    break;
+  case 3:
+    cout << "3" << endl;
+    break;
+  default:
+    cout << "default" << endl;
+    break;
+}
+```
+
+**Funkcje**  
+`<typ_zwracanych_danych> nazwaFunkcji(<typ_argumentu> nazwaArgumentu)`
+
+```cpp
+int function(int a, int b) {
+  return (a + b);
+}
+
+// ------------------------------------------------------------------------
+
+/*
+Funkcja zwracająca nową tablice, dostająca w argumentach
+wskaźnik na pierwszy element tablicy oraz jej wielkość
+*/
+int* funkcja(int *tablica, int wielkosci) {
+  int* nowaTablica = new int[wielkosc];
+
+  for (int i = 0; i < wielkosc; i++)
+    nowaTablica[i] = tablica[i];
+
+  return nowaTablica
+}
+
+// ------------------------------------------------------------------------
+
+//Funkcja zwracająca tablice dwuwymiarową, dostająca w argumencie wielkość
+int** funkcja(unsigned int wielkosc) {
+  int** tablica = 0;
+  tablica = new int*[wielkosc];
+
+  for (int i = 0; i < wielkosc; i++)
+    tablica[i] = new int[wielkosc];
+
+  return tablica;
+}
+/* Wynik dla wielkości 4
+    int int int int
+    int int int int
+    int int int int
+    int int int int
+*/
+
+// ------------------------------------------------------------------------
+
+// Funkcja jako argument funkcji
+int funkcja(int (*func)(int, int), int a, int b) {
+  result = func(a, b);
+
+  return result;
+}
+int przykladowaFunkcja(int c, int d) {
+  return (c + d);
+}
+// Wywołanie
+funkcja(przykladowaFunkcja, 10, 20);
+
+```
+
+**Warunek IF**
+```cpp
+if (a > b) {
+  // Operacje
+} else if (bool) {
+  // Jeżeli bool == true
+} else if (!bool) {
+  // Jeżeli bool == false
+} else if (a < b + 1 || a > c) {
+  // Podwojny warunek "Lub"
+} else if (a < b + 1 && a > c) {
+  // Podwojny warunek "I"
+} else {
+  // Coś innego
+}
+```
+
+**Zatrzymanie działania konsoli**  
+`system("pause")` -> wymaga `<cstdlib>`
+
+**Czyszczenie konsoli**  
+`system("cls")` -> wymaga `<cstdlib>`
+
+**Wskaźniki**
+```cpp
+int       * p;        // Wskaźnik
+int const * p         // Wskaźnik do stałej wartości
+int       * const p;  // Stały wskaźnik
+int const * const p;  // Stały wskaźnik do stałej wartości
+
+// Referencja
+int foo = 5;
+int * bar;
+bar = &foo;
+// *bar = 5
+foo = 6;
+// *bar = 6
+```
+
+**Tablice**
+```cpp
+int array[5];     // Tablica z zawartością typu całkowitego
+int array[10][10] // Tablica dwuwymiarowa
+char a[] = "foo"  // Tablica znakow
+
+int * array[10]   // Wskaźnik na tablice
+```
+
+### "Gotowe rozwiązania"
+**Odczyt pliku**
+```cpp
+fstream input;
+string zmienna;
+
+string tablica[100];
+int nr_linii = 0;
+
+input.open("input.txt", ios::in);
+if (!input.good()) exit(0);
+
+// Odczyt jednej linijki do zmiennej
+while (!input.eof()) {
+  getline(input, zmienna);
+}
+
+// Odczyt do tablicy
+while (!input.eof()) {
+  getline(input, tablica[nr_linii]);
+  nr_linii++
+}
+
+input.close();
+```
+
+**Zapis do pliku**
+```cpp
+fstream output;
+
+// Dla zapisu usuwającego poprzednie dane w pliku
+output.open("output.txt", ios::out);
+
+// Dla zapisu dopisującego dane do już istniejących
+output.open("output.txt", ios::out | ios::app);
+
+output << "Pierwsza linijka" << endl;
+output << "Druga linijka" << endl;
+
+output.close();
+```
 
 ## Java cheatsheet
 TBA
