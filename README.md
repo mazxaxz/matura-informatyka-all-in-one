@@ -21,7 +21,267 @@
 TBA
 
 ## Algorytmy warte uwagi
-TBA
+**Podstawowe**
+- Wyszukiwanie najmniejszej wartości w tablicy  
+```
+Max <- Tablica[0]
+
+for i := 1, 2, 3..., nie więcej niż długość tablicy
+  if Tablica[i] jest większe od Max
+    Max <- Tablica[i]
+
+Wyjście: Max
+```  
+C++:  
+```cpp
+int getMaxNumber(int *Tablica, const int wielkosc) {
+  int Max = arr[0];
+
+  for (int i = 1; i < wielkosc; i++) {
+    if (Tablica[i] > Max)
+      Max = Tablica[i];
+  }
+
+  return Max;
+}
+```
+
+- Wyszukiwanie najwiekszej wartości w tablicy  
+```
+Min <- Tablica[0]
+
+for i := 1, 2, 3..., nie więcej niż długość tablicy
+  if Tablica[i] jest mniejsze od Min
+    Min <- Tablica[i]
+
+Wyjście: Min
+```
+C++:
+```cpp
+int getMinNumber(int *Tablica, const int wielkosc) {
+  int Min = arr[0];
+
+  for (int i = 1; i < wielkosc; i++) {
+    if (Tablica[i] < Min)
+      Min = Tablica[i];
+  }
+
+  return Min;
+}
+```
+
+- Ciąg Fibonacciego rekurencyjnie  
+C++:
+```
+unsigned long fib(unsigned int n) {
+  if (n == 0 || n == 1)
+    return n;
+
+  return fib(n - 1) + fib(n - 2);
+}
+```
+
+- Obliczanie silni rekurencyjnie  
+C++:
+```
+unsigned long factorial(const unsigned int n) {
+  if (n == 1 || n == 2)
+    return n;
+
+  return n * factorial(n-1);
+}
+```
+
+- Odwrocenie tablicy
+C++:
+```
+int* reverseArray(int *arr, int si) {
+  int* newArr = 0;
+  newArr = new int[si];
+
+  for (int i = 0; i < si; i++) {
+    newArr[i] = arr[si - i - 1];
+  }
+
+  return newArr;
+}
+```
+
+- Odwrocenie stringa rekurencyjnie
+```
+Jeżeli string jest pusty albo zawiera jeden znak
+  zwroć string
+W przeciwnym wypadku
+  Usuń pierwszy znak
+  Odwroć string
+  Dodaj pierwszy znak do odwroconego stringa
+  Zwroć nowy string
+```
+
+C++:
+```cpp
+string reverseString(string s) {
+  if (s.size() == 0 || s.size() == 1)
+    return s;
+
+  string last(1, s[s.length() - 1]);
+  string reversed = reverseString(s.substr(0, s.length() - 1));
+
+  return last + reversed;
+}
+```
+
+---
+
+- NWD -> Największy wspolny dzielnik (Euklides)
+```
+podprogram NWD(a, b)
+  dopóki b ≠ 0
+    c := reszta z dzielenia a przez b
+    a := b
+    b := c
+  zwróć a
+```
+
+C++:
+```cpp
+int euclidean(int a, int b) {
+  int c;
+
+  while(b != 0) {
+    c = a % b;
+    a = b;
+    b = c;
+  }
+
+  return a;
+}
+```
+
+- NWD rozszerzony
+```
+podprogram NWD(a, b)
+  x := 1
+  y := 0
+  r := 0
+  s := 1
+
+  dopóki b ≠ 0
+    c := reszta z dzielenia a przez b
+    q := część całkowita z dzielenia a przez b
+    a := b
+    b := c
+
+    r' = r
+    s' = s
+    r = x - q · r
+    s = y - q · s
+    x = r'
+    y = s'
+
+  zwróć a, x, y
+```
+
+- Sito Eratostenesa (do szukania liczb pierwszych)
+```
+Wejście: liczba całkowita n > 1
+ 
+Niech A będzie tablicą typów logicznych indeksowaną liczbami całkowitymi od 2 do n
+początkowo wypełniona wartościami true
+ 
+  for i := 2, 3, 4, ..., nie więcej niż pierwiastek z n
+    if A[i] = true:
+      for j :=  i^2, i^2 + i, i^2 + 2i, ..., nie więcej niż n :
+        A[j] := false
+ 
+Wyjście: wartości i takie, że A[i] zawiera wartość true.
+```
+
+C++:
+```cpp
+void sieve(bool *arr, unsigned int n) {
+  for (int i = 2; i*i <= n; i++) {
+    if (arr[i]) {
+      for (int j = i*i; j <= n; j+=i)
+        arr[j] = false;
+    }
+  }
+}
+```
+
+- Wyszukiwanie binarne (Divide and Conquer)
+```
+A := [...]      { n-elementowa tablica uporządkowana }
+lewo := 1       { indeks początku przedziału }
+prawo := n    { indeks końca przedziału - początkowo cała tablica A }
+
+y := poszukiwana wartość
+indeks := pusty
+
+while lewo < prawo do
+  begin
+    środek := (lewo + prawo) div 2; { dzielenie całkowitoliczbowe }
+    
+    if A[środek] < y then
+      lewo := środek + 1
+    else
+      prawo := środek;
+  end;
+
+if A[lewo] = y then
+  indeks := lewo
+else
+  indeks := brak;
+```
+
+C++:
+```cpp
+int divideAndConquer(int *arr, int si, int elem) {
+  int left = 0;
+  int right = si - 1;
+  int mid;
+
+  while (left < right) {
+    mid = (left + right) / 2;
+
+    if (arr[mid] == elem)
+      return mid;
+
+    if (arr[mid] < elem)
+      left = mid + 1;
+    else
+      right = mid - 1;
+  }
+
+  return -1;
+}
+```
+
+- Potęgowanie sposobem naiwnym
+```
+result = 1;
+a = a mod n;
+for i=1 to b do
+  begin
+    result = result * a;
+    result = result mod n;
+  end;
+```
+
+C++:
+```cpp
+long naivePowerMod(int a, int b, int n) {
+  int result = 1;
+  a = a % n;
+
+  for (int i = 1; i <= b; i++) {
+    result *= a;
+    result = result % n;
+  }
+  return result;
+}
+```
+
 
 ## C++ cheatsheet
 TBA
