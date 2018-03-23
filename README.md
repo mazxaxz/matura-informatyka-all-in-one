@@ -438,6 +438,26 @@ char a[] = "foo"  // Tablica znakow
 int * array[10]   // Wskaźnik na tablice
 ```
 
+**Tablica ASCII**
+
+![main-qimg-f4c01360fc4a6a8717f6c431e0c9bcd5](https://user-images.githubusercontent.com/32012952/37831090-8f0118fe-2ea4-11e8-99e0-c4bb7abd8f90.png)
+
+```cpp
+// Konwersja znaku na liczbe jemu odpowiadającą
+char c = 'a';
+int ci = (int)c;
+// ci = 97
+
+// Konwersja liczby na znak jemu odpowiadający
+int ci = 97;
+char c = (char)ci;
+// c = 'a';
+```
+
+**Typy danych w C++**
+
+![typy](https://user-images.githubusercontent.com/32012952/37831150-c2221c06-2ea4-11e8-84ff-3bd4fd9ff2fd.PNG)
+
 ### "Gotowe rozwiązania"
 **Odczyt pliku**
 ```cpp
