@@ -471,9 +471,7 @@ input.open("input.txt", ios::in);
 if (!input.good()) exit(0);
 
 // Odczyt jednej linijki do zmiennej
-while (!input.eof()) {
-  getline(input, zmienna);
-}
+getline(input, zmienna);
 
 // Odczyt do tablicy
 while (!input.eof()) {
@@ -887,5 +885,186 @@ TBA
 **6. Formuła 1**  
 TBA
 ## 2016
+## Pisemny
+---
+**1 Liczby skojarzone**
+```
+> Suma wszystkich rożnych dodatnich dzielnikow a mniejszych od a jest rowna b+1,  
+  a suma wszystkich dodatnich dzielnikow b mniejszych od b jest rowna a+1
+
+> Przykładowo dla a = 140 i b = 195
+> 140 -> 1, 2, 4, 5, 7, 10, 14, 20, 28, 35, 70 ich suma = 196 = b + 1
+> 195 -> 1, 3, 5, 13, 15, 38, 65 ich suma = 141 = a + 1
+```
+
+* **1.1**  
+
+  | a  | b  | dzielniki a            | dzielniki b                  | suma dz. a | suma dz. b | skojarzone |
+  |:--:|:--:|:----------------------:|:----------------------------:|:----------:|:----------:|:----------:|
+  | 78 | 64 | 1, 2, 3, 6, 13, 26, 39 | 1, 2, 4, 8, 16, 32           | 90         | 63         | NIE        |
+  | 20 | 21 | 1, 2, 4, 5, 10         | 1, 3, 7                      | 22         | 11         | NIE        |
+  | 75 | 48 | 1, 3, 5, 15, 25        | 1, 2, 3, 4, 6, 8, 12, 16, 24 | 49         | 76         | TAK        |
+
+---
+
+* **1.2**  
+```cpp
+//Algorytm wyszukiwania liczb skojarzonych
+int znajdz(int a) {
+  int b, sumaA = 0; sumaB = 0;
+
+  for (int i = 1; i < a; i++) {
+    if (a % i == 0)
+      sumaA += i;
+  }
+  b = sumaA - 1;
+
+  for (int i = 1; i < b; i++) {
+    if (b % i == 0)
+      sumaB += i;
+  }
+
+  if (a == sumaB - 1)
+    return b;
+  else
+    return -1; // "NIE"
+}
+
+if (znajdz(a) == -1)
+  cout << "NIE";
+else
+  cout << znajdz(a);
+
+// Sposob drugi
+int sumaDzielnikow(int n) {
+  int suma = 0;
+  int i = 2;
+
+  while (i * i <= n) {
+    if (n % i == 0) {
+      suma += i;
+
+      if (n / i != i)
+        suma += n / i;
+    }
+
+    i++;
+  }
+
+  return suma;
+}
+
+int x = sumaDzielnikow(a);
+int y = sumaDzielnikow(b);
+
+if (y - 1 = a)
+  cout << x - 1;
+else
+  cout << "NIE";
+```
+
+---
+
+**2. Przestawienia w Tablicy**  
+Algorytm:
+```
+n - liczba całkowita
+A[1...n] - tablica liczb całkowitych
+
+funkcja przestaw(A)
+  klucz = A[1]
+  w = 1
+  dla k = 2, 3, 4..., n wykonaj
+    jesli A[k] < klucz
+      zamień(A[w], A[k])
+      w++
+```
+
+---
+
+* **2.1**  
+`n = 6, A = [4, 6, 3, 5, 2, 1]. Podaj kolejność tablicy po wykonaniu funkcji`
+
+![zamiana](https://user-images.githubusercontent.com/32012952/37842359-36b92f74-2ec2-11e8-94fc-a4fab8360cce.png)
+
+`Odp: A = [3, 2, 1, 5, 6, 4]`
+
+---
+
+* **2.2**  
+```
+> Mamy podać przykład siedmioelementowej tablicy A, dla ktorej funkcja przestaw(A),  
+  5 razy wykona zamiane  
+
+  n = 7; A = [6, 7, 4, 5, 3, 1, 2]
+
+  1 - [4, 7, 6, 5, 3, 1, 2]   4 <-> 6
+  2 - [4, 5, 6, 7, 3, 1, 2]   7 <-> 5
+  3 - [4, 5, 3, 7, 6, 1, 2]   6 <-> 3
+  4 - [4, 5, 3, 1, 6, 7, 2]   7 <-> 1
+  5 - [4, 5, 3, 1, 2, 7, 6]   6 <-> 2
+
+  Odp: A = [6, 7, 4, 5, 3, 1, 2]
+```
+
+---
+
+* **2.3**
+```
+> Tablica A = [10, 20, 30, ..., 100, 9, 19, 29, ..., 99, 8, 18, 28, ..., 98, ..., 1, 11, 21, ..., 91]
+> Podaj A[1], A[2], A[3] po wykonaniu funkcji przestaw(A)
+
+w = 10
+A[1] = 9    A[2] = 8    A[3] = 7
+```
+
+---
+
+**3. Test**
+* `Po wpisaniu 81.219.47.83 strona się otwiera, a po wpisaniu cke.edu.pl "Nie można znależć strony"`   
+  **1.** awaria serwera SMTP cke  
+  **2.** awaria serwera poczty użytkownika  
+  **3.** awaria systemu DNS  
+  **4.** brak prawidłowego klucza szyfrującego w przeglądarce  
+
+  **1** -> Fałsz; **2** -> Fałsz; **3** -> Prawda; **4** -> Fałsz
+
+* `f(1) = 4; f(n+1) = 1 / 1 - f(n) wtedy: `  
+  **1.** f(8) = 1/3  
+  **2.** f(9) = 3/4  
+  **3.** f(10) = 4  
+  **4.** f(100) = -1/3  
+
+  **1** -> Fałsz; **2** -> Prawda; **3** -> Prawda; **4** -> Fałsz
+  
+```cpp
+// Widać schemat postępowania rekurencji
+f(8) = 1 / 1 - f(7) ->                                     // f(8) = -1/3
+      f(7) = 1 / 1 - f(6) ->                               // f(7) = 4
+            f(6) = 1 / 1 - f(5) ->                         // f(6) = 3/4
+                  f(5) = 1 / 1 - f(4) ->                   // f(5) = -1/3
+                        f(4) = 1 / 1 - f(3) ->             // f(4) = 4
+                              f(3) = 1 / 1 - f(2) ->       // f(3) = 3/4
+                                    f(2) = 1 / 1 - f(1) -> // f(2) = -1/3
+                                          f(1) = 4
+```
+
+* `Dla dwoch liczb 1111 i 101 w notacji dwojkowej, ich`   
+  **1.** suma jest rowna 10110  
+  **2.** rożnica jest rowna 1010  
+  **3.** iloczyn jest mniejszy od 110000  
+  **4.** iloraz jest większy od 10  
+
+  **1** -> Fałsz; **2** -> Prawda; **3** -> Fałsz; **4** -> Prawda
+
+* `3.4`  
+  **1.** Jednym z zadań OS jest przydział pamięci działąjącym programom  
+  **2.** Na jendym dysku twardym mogą być zainstalowane dwa OS  
+  **3.** OS musi być przechowywany w pamięci ROM  
+  **4.** OS musi być przechowywany na dysku twardym  
+
+  **1** -> Prawda; **2** -> Prawda; **3** -> Fałsz; **4** -> Fałsz
+## Praktyka
+---
 
 ## 2017
