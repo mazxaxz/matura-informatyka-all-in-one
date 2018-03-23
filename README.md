@@ -1036,7 +1036,7 @@ A[1] = 9    A[2] = 8    A[3] = 7
   **4.** f(100) = -1/3  
 
   **1** -> Fałsz; **2** -> Prawda; **3** -> Prawda; **4** -> Fałsz
-  
+
 ```cpp
 // Widać schemat postępowania rekurencji
 f(8) = 1 / 1 - f(7) ->                                     // f(8) = -1/3
@@ -1065,6 +1065,360 @@ f(8) = 1 / 1 - f(7) ->                                     // f(8) = -1/3
 
   **1** -> Prawda; **2** -> Prawda; **3** -> Fałsz; **4** -> Fałsz
 ## Praktyka
+
 ---
 
+**Liczba PI**  
+Ogolnie zadanie jest przeznaczone do wykonania w Excelu, natomiast 2 pierwsze podpunkty można 
+napisać np. w C++
+```cpp
+// Zczytujemy zawartość pliku punkty.txt i zapisujemy je w tablicy
+int* points[10000];                             // Tablica 10000 wspołżędnych
+int nr_linii = 0;
+float bok = 400;                                // Bok kwadratu
+int x, y;                                       // Tymczasowe wspołżędne x, y
+
+fstream punkty;
+string temp, tempA, tempB;                      // Tymczasowe zmienne użyte to rozdzielenia
+                                                // stringa "123 23" na x = 123; y = 23
+punkty.open("punkty.txt", ios::in);
+
+if (!punkty.good()) exit(0);
+
+while(!punkty.eof()) {
+  getline(punkty, temp);
+  points[nr_linii] = new int[2];                // Inicjujemy z każdą iteracją szufladki na zmienne
+                                                // x i y ([0] = x, [1] = y)
+  for (int i = 0; i < temp.size(); i++) {
+    if (temp[i] == ' ') {                       // Splitowanie stringa
+      int howMany = temp.size() - i;
+      tempA = temp.substr(0, i);
+      tempB = temp.substr(i + 1, howMany);
+    }
+  }
+
+  x = atoi(tempA.c_str());                      // Parsowanie stringa na int
+  y = atoi(tempB.c_str());                      // Jak wyżej
+
+  points[nr_linii][0] = x;                      // Przypisanie punktow
+  points[nr_linii][1] = y;
+
+  nr_linii++;
+}
+
+punkty.close();
+```
+
+  * **4.1**
+  ```
+  > Wypisujemy ile punktow należy do wnętrza koła, nie licząc jego brzegu
+  ```
+
+  Excel:  
+  TBA  
+    
+  C++:
+  ```cpp
+// Rownanie okręgu o środku w punkcie S = (a, b) i r > 0
+// r^2 = (x - a)^2 + (y - b)^2
+bool insideCircle(int x, int y, int a, int b) {
+  int left = (x - a) * (x - a);               // Lewa strona rownania przed +
+  int right = (y - b) * (y - b);              // Lewa strona rownania po +
+
+  int l = left + right;                       // Lewa strona rownania
+
+  int r = b * b;                              // Promień do kwadratu to połowa boku
+                                              // czyli odległość od środka do miejsca zerowego
+  if (l < r)                                  // Jeżeli Lewa strona jest mniejsza od Prawej
+    return true;                              // Punkt znajduje się w okręgu
+  return false;
+}
+
+int iloscWKole = 0;
+int a = bok / 2;                              // S = (a, b)
+int b = bok / 2;                              // S = (a, b)
+
+for (int i = 0; i < 10000; i++) {
+  int xTemp = points[i][0];
+  int yTemp = points[i][1];
+
+  if (insideCircle(xTemp, yTemp, a, b))       // Jeżeli zrwoci true
+    iloscWKole++;                             // Inkrementuj
+}
+
+cout << iloscWKole;
+  ```
+
+---
+
+  * **4.2**
+  ```
+  > Obliczamy wartość PI z podanych punktow "Metoda Monte Carlo"
+  > Oblicz dla 1000, 5000 i wszystkich punktow
+  ```
+
+  Excel:  
+  TBA  
+
+  C++:
+  ```cpp
+// Dodajemy funkcje sprawdzającą czy punkt znajduje się na okręgu
+bool inCircle(int x, int y, int a, int b) {
+  int left = (x - a) * (x - a);
+  int right = (y - b) * (y - b);
+
+  int l = left + right;
+
+  int r = b * b;
+
+  if (l == r)                               // Od poprzedniej rożni się tylko tym
+    return true;                            // że sprawdzamy czy lewa strona rowna sie prawej
+  return false;
+}
+
+float iloscNaKole = 0;
+float iloscWKole = 0;
+float ilePunktow = 10000;                   // Do obliczenie poszczegolnej ilosci
+                                            // zmieniamy tylko tą wartość
+for (int i = 0; i < ilePunktow; i++) {
+  int xTemp = points[i][0];
+  int yTemp = points[i][1];
+
+  if (inCircle(xTemp, yTemp, a, b))
+    iloscNaKole++;
+
+  if (insideCircle(xTemp, yTemp, a, b))
+    iloscWKole++;
+}
+
+/*
+Wzor z ktorego będziemy obliczać wartość PI
+
+nk / n = pk / p
+iloscwkole / wszystkie = (pi * r * r) / bok * bok
+iloscwkole * bok * bok / wszystkie = pi * r * r
+iloscwkole * bok * bok / wszystkie * r * r = pi
+iloscWKole * 400 * 400 / ilePunktow * 200 * 200 = pi
+
+*/
+
+// Więc liczymy
+float pi = ((iloscWKole + iloscNaKole) * (bok * bok)) / (ilePunktow * (a * a));
+
+cout << pi;
+  ```
+
+---
+
+  * **4.3**
+  ```
+  > TBA
+  ```
+
+  Excel:  
+  TBA  
+
+---
+
+**Biblioteka Podręcznikow**  
+TBA  
+
+---
+
+**Szyfr Cezara**
+  * **6.1**
+  ```
+  > Zaszyfrowanie słow z kluczem rownym 107
+  ```
+
+  ```cpp
+// Funkcja szyfrująca
+char encrypt(char c) {
+  int k = 107;                                    // klucz
+
+  if ((int)c > 64 && (int)c < 91) {               // Znak musi znajdować się w alfabecie
+    k = k % 26;                                   // Reszta z dzielenia przez ilość liter i alfabecie
+    c += k;                                       // Przesuwamy w prawo
+
+    if (c > 90)                                   // Jeżeli numer znaku przekroczyl alfabet
+      c -= 26;                                    // Odejmujemy ilość liter
+
+    return (char)c;                               // Zwracamy zparsowany znak
+  }
+}
+
+// Przebieg
+int nr_wiersza = 0;
+string slowa[100];
+
+fstream slowaNieszyfrowane;
+fstream wynik;
+
+slowaNieszyfrowane.open("dane_6_1.txt", ios::in);
+
+if (!slowaNieszyfrowane.good()) exit(0);
+
+while (!slowaNieszyfrowane.eof()) {
+  getline(slowaNieszyfrowane, slowa[nr_wiersza]);
+  nr_wiersza++;
+}
+
+slowaNieszyfrowane.close();
+
+for (int i = 0; i < 100; i++) {
+  int j = 0;
+
+  while (slowa[i][j]) {
+    slowa[i][j] = encrypt(slowa[i][j]);           // Zamieniamy każdą literę na
+    j++;                                          // zaszyfrowaną
+  }
+}
+
+wynik.open("wyniki_6_1.txt", ios::out);
+
+if (!wynik.good()) exit(0);
+
+for (int i = 0; i < 100; i++)                     // Zapis do pliku
+  wynik << slowa[i] << endl;
+
+wynik.close();
+  ```
+
+---
+
+  * **6.2**
+  ```
+  > Rozszyfrowywanie słow o kluczu podanym obok zaszyfrowanego słowa
+  ```
+
+  ```cpp
+// Funkcja deszyfrująca
+char decrypt(char c, int key) {
+  int k = key % 26;
+  c = (int)c;
+
+  if (c > 64 && c < 91) {
+    c -= k;
+
+    if (c < 65)
+      c += 26;
+
+    return (char)c;
+  }
+}
+
+// Przebieg
+int nr_linii = 0;
+int klucz[3000];
+
+string slowaSz[3000];
+string temp, tempA, tempB;
+
+fstream slowaSzyfrowane;
+
+// Otwieramy w ten sam sposob natomiast pobieramy zawartość w inny
+while (!slowaSzyfrowane.eof()) {
+  getline(slowaSzyfrowane, temp);           // Zapisujemy całą linie do zmiennej temp
+
+  for (int i = 0; i < temp.size(); i++) {
+    if (temp[i] == ' ') {
+      int howMany = temp.size() - i;        // Standardowo rozdzielamy string na klucz
+      tempA = temp.substr(0, i);            // oraz zaszyfrowane slowo
+      tempB = temp.substr(i + 1, howMany);
+    }
+  }
+
+  slowaSz[nr_linii] = tempA;                // Zapisujemy wydobyte slowo do tablicy
+  klucz[nr_linii] = atoi(tempB.c_str());    // Zapisujemy zparsowany klucz do tablicy
+
+  nr_linii++;
+}
+
+// Deszyfrowanie
+for (int i = 0; i < 3000; i++) {
+  int j = 0;
+  while (slowaSz[i][j]) {
+    slowaSz[i][j] = decrypt(slowaSz[i][j], klucz[i]);
+    j++;
+  }
+}
+  ```
+
+---
+
+  * **6.3**
+  ```
+  > Mamy podane w linii słowo niezaszyfrowane i zaszyfrowane
+  > Mamy znaleźć i wypisać linijki ktore zostały źle zaszyfrowane
+  ```
+
+  ```cpp
+// Funkcja znajdująca klucz
+int findKey(char a, char b) {
+  a = (int)a % 26;
+  b = (int)b % 26;
+
+  int c = b - a;                                          // Odejmujemy pozycje zaszyfrowanego
+                                                          // Od niezaszyfrowanego
+  if (b > a) {                                            // Jeżeli pozycja zaszyf. jest większa od niezasz.
+    if (c < 0)                                            // Jeżeli klucz jest ujemny
+      return ((26 - c) * (-1));                           // Zwroć wartość bezwzględną
+    return (26 - c);
+  }
+
+  if (c > 0)                                              // Jeżeli zaszyf. nie jest większy od niezaszyf.
+    return c;                                             // oraz klucz jest dodatni, zwracamy klucz
+
+  return (c * (-1));                                      // Jeżeli klucz jest ujemny zwracamy wartość
+}                                                         // bezwzględną
+
+// Przebieg
+int linia = 0;
+string slowaNieszy[3000];
+string slowaSzyfr[3000];
+
+string temp3;
+
+fstream slowaSprawdz;
+fstream wynik3;
+
+// Otwieramy w ten sam sposob zapisujemy w podobny jak w poprzednim podpunkcie
+while (!slowaSprawdz.eof()) {
+  getline(slowaSprawdz, temp3);
+
+  for (int i = 0; i < temp3.size(); i++) {
+    if (temp3[i] == ' ') {
+      int howMany = temp3.size() - i;                     // Standardowe rozdzielenie stringow
+      slowaNieszy[linia] = temp3.substr(0, i);            // Zapisujemy niezaszyfrowane do tablicy
+      slowaSzyfr[linia] = temp3.substr(i + 1, howMany);   // to samo co wyżej tylko, zaszyfrowane słowo
+    }
+  }
+
+  linia++;
+}
+
+// Zapisujemy do pliku te słowa ktore są źle zaszyfrowane
+bool correct;
+int key;
+int key2;
+
+for (int i = 0; i < 3000; i++) {
+  int j = 1;
+  correct = true;                                         // za każdą iteracją pierwotny klucz jest poprawny
+  key = findKey(slowaNieszy[i][0], slowaSzyfr[i][0]);     // Klucz pierwszego znaku
+  key2 = 0;                                               // Zerujemy klucz z każdym powtorzeniem
+
+  while (slowaNieszy[i][j]) {                             // Dopoki znak istnieje
+    key2 = findKey(slowaNieszy[i][j], slowaSzyfr[i][j]);  // klucz obecnego znaku
+
+    if (key != key2)                                      // Jeżeli klucz pierwszego znaku
+      correct = false;                                    // nie zgadza się z ktorymkolwiek
+                                                          // Zmieniamy zmienna
+    j++;
+  }
+
+  if (!correct)                                           // Jeżeli słowo jest niepoprawnie
+    wynik3 << slowaNieszy[i] << endl;                     // zaszyfrowane, zapisujemy je
+}
+  ```
 ## 2017
