@@ -902,8 +902,8 @@ TBA
   | a  | b  | dzielniki a            | dzielniki b                  | suma dz. a | suma dz. b | skojarzone |
   |:--:|:--:|:----------------------:|:----------------------------:|:----------:|:----------:|:----------:|
   | 78 | 64 | 1, 2, 3, 6, 13, 26, 39 | 1, 2, 4, 8, 16, 32           | 90         | 63         | NIE        |
-  | 20 | 21 | 1, 2, 4, 5, 10         | 1, 3, 7                      | 22         | 11         | NIE        |
-  | 75 | 48 | 1, 3, 5, 15, 25        | 1, 2, 3, 4, 6, 8, 12, 16, 24 | 49         | 76         | TAK        |
+  | 20 | 21 | `1, 2, 4, 5, 10`       | `1, 3, 7`                    | `22`       | `11`       | `NIE`      |
+  | 75 | 48 | `1, 3, 5, 15, 25`      |`1, 2, 3, 4, 6, 8, 12, 16, 24`| `49`       | `76`       | `TAK`      |
 
 ---
 
@@ -1422,3 +1422,172 @@ for (int i = 0; i < 3000; i++) {
 }
   ```
 ## 2017
+## Pisemny
+---
+**Prostokąt**
+* **1.1**
+  ```
+  > Mamy znaleźć największe możliwe pole z podanych długości bokow.
+  > Pole nie może być podzielne przez p, a każdą długość możemy użyć tylko raz
+
+  > Szukamy największej liczby ze zbioru niepodzielnej przez p.
+  > Szukamy drugiej największej liczby ze zbioru rownież niepodzielnej przez p.
+  > Mnożymy te liczby przez siebie i otrzymujemy największe możliwe pole.
+  ```
+
+| Zbior A                              | p | Pole prostokąta (0 -> jeśli nie można takiego zbudować) |
+|:------------------------------------:|:-:|:-------------------------------------------------------:|
+| 7, 5, 11, 33                         | 3 | 77                                                      |
+| 15, 12, 10, 6, 5, 1                  | 5 | `72`                                                    |
+| 6, 28, 7, 12, 10, 14, 5, 9, 4, 8, 18 | 7 | `216`                                                   |
+| 4, 34, 16, 8, 6, 22, 14, 12, 2, 7    | 2 | `0`                                                     |
+
+---
+
+* **1.2**
+```
+> Mamy zapisać algorytm znajdujący właśnie takie pole
+> Przebieg wykonania jest wyżej
+```
+
+Algorytm:
+```cpp
+/*
+  n = liczba całkowita > 1
+  A[0..n] = tablica liczb całkowitych > 0
+  S = Największe pole
+*/
+// Pierwszy sposob
+int current, second;
+current = second = A[0];
+
+for (int i = 1; i < n; i++) {
+  if (A[i] > current && A[i] % p != 0)
+    current = A[i];
+}
+
+for (int i = 1; i < n; i++) {
+  if (A[i] > second && A[i] % p != 0)
+    if (A[i] != current)
+      second = A[i];
+}
+
+if (current % p != 0 && second % p != 0)
+  S = current * second;
+else
+  S = 0;
+
+// Drugi sposob
+int maxPole = 0;
+
+for (int i = 0; i < n; i++) {
+  for (int j = i + 1; j <= n; j++) {
+    int pole = A[i] * A[j];
+
+    if (pole % p != 0) {
+      if (pole > maxPole)
+        maxPole = pole;
+    }
+  }
+}
+
+S = maxPole;
+```
+
+---
+
+**Rekurencja**  
+Algorytm:
+```
+licz()
+  jeżeli x = 1
+    podaj wynik 1
+  w przeciwnym wypadku
+    w = licz(x div 2)
+    jeżeli x % 2 = 1
+      podaj wynik w + 1
+    w przeciwnym przypadku
+      podaj wynik w - 1
+```
+---
+* **2.1**
+```
+> Uzupełnij tabele według wyniku z funkcji licz(x) dla podanych argumentow
+```
+
+| x  | licz(x) |
+|:--:|:-------:|
+| 11 | 2       |
+| 13 | `2`     |
+| 21 | `1`     |
+| 32 | `-4`    |
+
+```cpp
+// Dla 13
+licz(13) = w + 1 -> w = licz(6)                         // licz(13) = 2
+      licz(6) = w - 1 -> w = licz(3)                    // licz(6) = 1
+            licz(3) = w + 1 -> w = licz(1)              // licz(3) = 2
+                  licz(1) = 1
+// Dla 21
+licz(21) = w + 1 -> w = licz(10)                        // licz(21) = 1
+      licz(10) = w - 1 -> w = licz(5)                   // licz(10) = 0
+            licz(5) = w + 1 -> w = licz(2)              // licz(5) = 1
+                  licz(2) = w - 1 -> w = licz(1)        // licz(2) = 0
+                        licz(1) = 1
+// Dla 32
+licz(32) = w - 1 -> w = licz(16)                        // licz(32) = -4
+      licz(16) = w - 1 -> w = licz(8)                   // licz(16) = -3
+            licz(8) = w - 1 -> w = licz(4)              // licz(8) = -2
+                  licz(4) = w - 1 -> w = licz(2)        // licz(4) = -1
+                        licz(2) = w - 1 -> w = licz(1)  // licz(2) = 0
+                          licz(1) = 1
+```
+---
+* **2.2**  
+TBA
+
+---
+
+* **2.3**
+```
+> Podaj najmniejszą liczbę całkowitą x większą od 100, dla ktorej wynikiem
+  licz(x) będzie 0
+
+> Rekurencje wykonujemy od tyłu, zaczynamy od liczb parzystych i dokladamy
+  liczby nie parzyste do wywołania funkcji, żeby końcowy wynik się wyrownał
+
+> Jako, że wynikiem funkcji licz(1) jest 1, to liczb parzystych musi być
+  o jeden więcej od nieparzystych
+```
+
+```cpp
+licz(1) -> licz(2) -> licz(4) -> licz(8) -> licz(16) -> licz(33) -> licz(67) -> licz(135)
+//   1          0         -1         -2          -3          -2          -1           0
+```
+
+---
+
+**Test**
+* `Po wykonaniu zapytania wyniki będą zawsze uporządkowane niemalejąco według "nazwa"`   
+  **1.** SELECT nazwa, wartosc FROM dane ORDER BY wartosc, nazwa  
+  **2.** SELECT nazwa, wartosc FROM dane ORDER BY nazwa  
+  **3.** SELECT nazwa, sum(wartosc) FROM dane GROUP BY nazwa  
+  **4.** SELECT nazwa, sum(wartosc) FROM dane GROUP BY nazwa ORDER BY nazwa  
+
+  **1** -> Fałsz; **2** -> Prawda; **3** -> Fałsz; **4** -> Prawda
+
+* `SELECT pesel, count(*) FROM samochody WHERE pesel NOT IN (SELECT pesel FROM dokumenty_zastrzeżone) GROUP BY pesel HAVING COUNT(*) > 1`   
+  **1.** ten sam pesel może się pojawić więcej niż raz  
+  **2.** nie pojawi się żaden numer pesel, ktory jest zapisany w tabeli dokumenty_zastrzeżone  
+  **3.** otrzymasz tabele o 2 kolumnach  
+  **4.** przy odpowiednich danych może pojawić się wiersz "82122302134, 1"  
+
+  **1** -> Fałsz; **2** -> Prawda; **3** -> Prawda; **4** -> Fałsz
+
+* `Oszust ma klucz publiczny i adres e-mail Jana Kowalskiego co może zrobic?`   
+  **1.** Założyć konto "Jan Kowalski" w serwisie społecznościowym  
+  **2.** Na podstawie klucza publicznego szybko wygenerować podpis cyfrowy  
+  **3.** Na podstawie klucza publicznego szybko obliczyć klucz prywatny  
+  **4.** rozsyłać e-maile, ktore w nagłowku "Od: ", będą miały adres Kowalskiego  
+
+  **1** -> Prawda; **2** -> Fałsz; **3** -> Fałsz; **4** -> Prawda
