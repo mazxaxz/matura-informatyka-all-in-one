@@ -18,7 +18,9 @@
 </ol>
 
 ## Ogolna informatyka
-TBA
+- [CS50's Understanding Technology](https://www.youtube.com/playlist?list=PLhQjrBD2T382p8amnvUp1rws1p7n7gJ2p)
+- [Zamiana liczb na system dwojkowym szesnastkowy, osemkowy, dziesiętny](https://www.youtube.com/watch?v=VUHwfugYFEA)
+- [System czworkowy](http://www.gloszp.pl/kolomath/Systemyliczbowe/Poziom2/sredni4.html)
 
 ## Algorytmy warte uwagi
 **Podstawowe**
@@ -502,10 +504,15 @@ output.close();
 TBA
 
 ## Excel
-TBA
+- [Kurs: Podstawy Excel](https://www.youtube.com/watch?v=xo0KqBB_Ekw)
+- [Excel Crash Course](https://www.youtube.com/watch?v=Aq4oA3iU0Is)
+- [Excel Crash Course for finance](https://www.youtube.com/watch?v=kjoldYi7eH0)
 
 ## Access / SQL
-TBA
+- [Baza danych w Access - praktyczny tutorial](https://youtu.be/hFn_P40yNRg)
+- [Access - kwerendy](https://www.youtube.com/watch?v=o1UHJJcB-KQ)
+- [Kurs MySQL od Zelenta](https://www.youtube.com/playlist?list=PLOYHgt8dIdoymv-Wzvs8M-OsKFD31VTVZ)
+- [SQL Crash Course](https://www.youtube.com/watch?v=nWeW3sCmD2k)
 
 ## Rozwiazania arkuszy
 ### 2015
@@ -1591,3 +1598,8 @@ licz(1) -> licz(2) -> licz(4) -> licz(8) -> licz(16) -> licz(33) -> licz(67) -> 
   **4.** rozsyłać e-maile, ktore w nagłowku "Od: ", będą miały adres Kowalskiego  
 
   **1** -> Prawda; **2** -> Fałsz; **3** -> Fałsz; **4** -> Prawda
+
+---
+
+## Praktyka
+TBA
