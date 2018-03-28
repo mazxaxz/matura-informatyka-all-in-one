@@ -1602,4 +1602,273 @@ licz(1) -> licz(2) -> licz(4) -> licz(8) -> licz(16) -> licz(33) -> licz(67) -> 
 ---
 
 ## Praktyka
+**Słodzik**  
 TBA
+
+---
+
+**Fanka**  
+TBA
+
+---
+
+**Piksele**
+```
+> Mamy 200 wierszy z 320 liczbami naturalnymi
+
+> Znajdz piksel najjaśniejszy i najciemniejszy
+> Ile wierszy trzeba usunąć, żeby obraz miał pionową oś symetrii
+> Ile jest sąsiednich pikseli (rożnica > 128)
+> Podaj najdłuższy ciąg linii pionowej
+```
+Najpierw zczytujemy dane do tablicy dwuwymiarowej:
+```cpp
+int* pixels[200];                              // Tablica o wielkosci 200 wierszy
+int nr_linii = 0;
+
+fstream dane;
+string temp, temp2;
+
+dane.open("dane.txt", ios::in);
+
+if (!dane.good()) exit(0);
+
+while (!dane.eof()) {
+  getline(dane, temp);                         // Obecna linie zapisujemy w zmiennej temp
+  pixels[nr_linii] = new int[320];             // W każdym wierszu tworzymy 320 kolumn
+
+  int found, i = 0;                            // Potrzebne przy splitowaniu stringa
+  temp2 = "";                                  // Zerujemy zmienną pomocniczą
+
+  while (temp != "\0" && i < 320) {
+    temp2 = "";                                // Zerujemy zmienną pomocniczą
+    found = temp.find(" ");                    // Szukamy pierwszej spacji
+
+    if (found > 0)                             // Jeżeli indeks znalezionej spacji jest większy od zera
+      for (int j = 0; j < found; j++)          // Do zmiennej przechowującej pierwszą kolumne
+        temp2 += temp[j];                      // Dopisujemy po kolei znak z linii do momentu pierwszej spacji
+    else                                       // Jeżeli została tylko jedna kolumna
+      temp2 = temp;                            // Zapisujemy całą liczbę do zmniennej
+
+    pixels[nr_linii][i] = atoi(temp2.c_str()); // Konwersja ze stringa na int i zapisanie do obecnej szuflady
+
+    temp.erase(0, found + 1);                  // Usuwany dodaną do tablicy wcześniej liczbe z linii
+    i++;
+
+  }
+  nr_linii++;
+}
+
+dane.close();
+```
+
+  * **6.1**
+```cpp
+int findLightest(int** arr) {           // Zwracamy największą liczbe z tablicy, jako argument tablica
+  int lightestPixel = arr[0][0];        // Na początek największą liczbą jest pierwsza liczba w tablicy
+
+  for (int y = 0; y < 200; y++) {       // Iteracja wierszy
+    for (int x = 0; x < 320; x++) {     // Iteracja kolumn
+      if (arr[y][x] > lightestPixel)    // Jeżeli obecny jest większy od obecnego największego
+        lightestPixel = arr[y][x];      // Podmieniamy
+    }
+  }
+
+  return lightestPixel;                 // Zwracamy największą liczbę
+}
+
+// Podobnym sposobem szukamy najmniejszej
+int findDarkest(int** arr) {
+  int darkestPixel = arr[0][0];
+
+  for (int y = 0; y < 200; y++) {
+    for (int x = 0; x < 320; x++) {
+      if (arr[y][x] < darkestPixel) {   // To samo co wyżej tylko szukamy mniejszej
+        if (arr[y][x] != 0)             // Tutaj z niewiadomych mi powodow c++ zapisał na końcu tablicy 0
+          darkestPixel = arr[y][x];     // Ktorego tak naprawde nie ma, więc sprawdzamy też czy nie jest zerem
+      }
+    }
+  }
+
+  return darkestPixel;
+}
+
+// Wywołujemy przekazując tablice
+cout << "Najjasniejszy: " << findLightest(pixels) << endl; // 221
+cout << "Najciemniejszy: " << findDarkest(pixels) << endl; // 7
+```
+
+---
+
+  * **6.2**
+```cpp
+int mirror(int** arr) {
+  int counts = 0;                                 // Wiersze do usunięcia
+
+  for (int row = 0; row < 200; ++row) {           // Iteracja wierszy
+    for (int col = 0; col < 160; ++col) {         // Iteracja do połowy kolumn
+      if (arr[row][col] != arr[row][319 - col]) { // Sprawdzamy czy obecna kolumna jest rowna tej po przeciwnej
+        counts++;                                 // stronie, jeżeli nie inkrementujemy counts
+        break;                                    // I przerywamy pętle iterującą przez kolumny
+      }
+    }
+  }
+  return counts;
+}
+
+// Wywołujemy w ten sam sposob
+cout << "Najmniejsza liczba wierszy do usunięcia: " << mirror(pixels) << endl; // 149 
+```
+
+---
+
+  * **6.3**
+```cpp
+int findContrast(int** arr) {
+  int howMany = 0;                                              // Ile pikseli kontrastujących
+  int firstCondition, secondCondition, thirdCondition, fourthCondition;
+
+// Z każdego sprawdzemia musimy wyciągnąć wartość absoultną np: 7 - 137 = -130, co nadal jest kontrastujące
+  for (int row = 1; row < 199; row++) {           // Przeszukujemy tablice bez pierwszego i ostatniego wiersza
+    for (int col = 1; col < 319; col++) {         // Przeszukujemy tablice bez pierwszej i ostatniej kolumny
+      firstCondition = abs(arr[row][col] - arr[row - 1][col]);  // Wiersz w gore
+      secondCondition = abs(arr[row][col] - arr[row + 1][col]); // Wiersz w doł
+      thirdCondition = abs(arr[row][col] - arr[row][col - 1]);  // Columna w lewo
+      fourthCondition = abs(arr[row][col] - arr[row][col + 1]); // Columna w prawo
+
+      if (firstCondition > 128 ||                               // Jeżeli spełnia choć jeden warunek
+        secondCondition > 128 ||                                // Jest to piksel kontrastujący
+        thirdCondition > 128 || 
+        fourthCondition > 128) {
+          howMany++;                                            // Więc zwiększamy jego ilość
+      }
+    }
+  }
+
+  for (int col = 1; col < 319; col++) {                         // Przeszukujemy pozostałe wiersze bez rogow
+    if ((abs(arr[0][col] - arr[0][col + 1]) > 128) ||           // Pierwszy wiersz
+      ((abs(arr[0][col] - arr[0][col - 1]) > 128))) {
+        howMany++;
+    }
+    if ((abs(arr[199][col] - arr[199][col + 1]) > 128) ||       // Ostatni wiersz
+      ((abs(arr[199][col] - arr[199][col - 1]) > 128))) {
+        howMany++;
+    }
+  }
+
+  for (int row = 1; row < 199; row++) {                         // Przeszukujemy pozostałe kolumny bez rogow
+    if ((abs(arr[row][0] - arr[row + 1][0]) > 128) ||           // Pierwsza kolumna
+      (abs(arr[row][0] - arr[row - 1][0]) > 128)) {
+        howMany++;
+    }
+    if ((abs(arr[row][319] - arr[row + 1][319]) > 128) ||       // Ostatnia kolumna
+      (abs(arr[row][319] - arr[row - 1][319]) > 128)) {
+        howMany++;
+    }
+  }
+
+  if ((abs(arr[0][0] - arr[0][1]) > 128)) {                     // Lewy gorny rog
+    howMany++;
+    if (abs(arr[0][0] - arr[1][0]) > 128) {
+      howMany++;
+    }
+  }
+  if ((abs(arr[0][319] - arr[0][318]) > 128)) {                 // Prawy gorny rog
+    howMany++;
+    if (abs(arr[0][319] - arr[1][319]) > 128) {
+      howMany++;
+    }
+  }
+  if ((abs(arr[199][0] - arr[199][1]) > 128)) {                 // Lewy dolny rog
+    howMany++;
+    if (abs(arr[199][0] - arr[198][0]) > 128) {
+      howMany++;
+    }
+  }
+  if ((abs(arr[199][319] - arr[198][319]) > 128)) {             // Prawy dolny rog
+    howMany++;
+    if (abs(arr[199][319] - arr[199][318]) > 128) {
+      howMany++;
+    }
+  }
+
+  return howMany;                                               // Zwracamy ilość pikseli
+}
+
+cout << "Sasiednie piksele: " << findContrast(pixels) << endl;  // 753
+```
+
+---
+
+  * **6.4**
+```cpp
+int findLine(int** arr) {
+  int pionowa = 1, pionowaNaj = 1;
+  int pozioma = 1, poziomaNaj = 1;
+
+// Sprawdzamy linie poziomą
+  for (int row = 0; row < 200; row++) {             // Iteracja przez wiersze
+    for (int col = 0; col < 320; col++) {           // Iteracja przez kolumny
+      if (col != 319) {                             // Jeżeli kolumna nie jest ostatnią
+        if (arr[row][col] == arr[row][col + 1]) {   // Jeżeli obecna jest taka sama jak następna
+          pozioma++;
+        } else {                                    // Jeżeli nie jest
+          if (arr[row][col] == arr[row][col - 1])   // Sprawdz czy obecny nalepszy też do ciągu
+            pozioma++;
+
+          if (poziomaNaj < pozioma)                 // Jeżeli największa jest mniejsza od obecnej
+              poziomaNaj = pozioma;                 // Podmieniamy
+
+          pozioma = 1;                              // Startujemy od początku
+        }
+      } else {                                      // Jeżeli kolumna jest ostatnia
+        if (arr[row][col] == arr[row][col - 1]) {   // Sprawdzamy czy obecna jest taka sama jak poprzednia
+          pozioma++;                                // Zwiększamy ciąg o jeden
+          poziomaNaj = pozioma;                     // Podmieniamy
+        } else {                                    // Jeżeli nie jest taka sama
+          if (poziomaNaj < pozioma)                 // Sprawdz czy największa jest mniejsza od obecnej
+            poziomaNaj = pozioma;                   // Podmieniamy
+
+          pozioma = 1;                              // Startujemy od początku
+        }
+      }
+    }
+  }
+
+// Dokładnie to samo co wyżej tylko szukamy pionowej linii
+  for (int col = 0; col < 320; col++) {             // Iterujemy najpierwsz od kolumn w przeciwieństwie
+    for (int row = 0; row < 200; row++) {           // Do linii poziomej
+      if (row != 199) {
+        if (arr[row][col] == arr[row + 1][col]) {
+          pionowa++;
+        } else {
+          if (arr[row][col] == arr[row - 1][col])
+            pionowa++;
+
+          if (pionowaNaj < pionowa)
+            pionowaNaj = pionowa;
+
+          pionowa = 1;
+        }
+      } else {
+        if (arr[row][col] == arr[row - 1][col]) {
+          pionowa++;
+          pionowaNaj = pionowa;
+        } else {
+          if (pionowaNaj < pionowa)
+            pionowaNaj = pionowa;
+
+          pionowa = 1;
+        }
+      }
+    }
+  }
+
+  if (pionowaNaj > poziomaNaj) {                    // Sprawdzamy ktora jest większa i zwracamy
+    return pionowaNaj;                              // tą większą
+  }
+  return poziomaNaj;
+}
+
+cout << "Najdluzsza linia: " << findLine(pixels) << endl; // 5
+```
