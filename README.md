@@ -1550,8 +1550,26 @@ licz(32) = w - 1 -> w = licz(16)                        // licz(32) = -4
                           licz(1) = 1
 ```
 ---
-* **2.2**  
-TBA
+* **2.2**
+```
+> Mamy znaleźć wzor wykonywania funkcji licz dla x i k
+> x to podany argument
+> k to ilosc wywoływania funkcji razem z pierwszym wywołaniem
+```
+  
+`Dla x = 8 funkcja wywoła się 4 razy (licz(8) -> licz(4) -> licz(2) -> licz(1))`  
+więc: 
+```
+A) x = k^2 -> 8 =/= 16
+B) x = 2^k-1 -> 8 = 2^4-1 -> 8 = 2^3
+C) x = k + 1 -> 8 =/= 5
+D) x = 2^k -> 8 =/= 2^4
+
+Z tego wynika, że poprawną odpowiedzią jest wzor B.
+
+Jako, że we wzorach goruje potęgowanie dwojki, musimy brac pod uwage
+x = potęga liczby 2
+```
 
 ---
 
