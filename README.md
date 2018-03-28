@@ -709,7 +709,7 @@ TBA
   ```
 
   Funkcje sprawdzającą w C++ można napisać w ten sposob:
-  ```cpp
+```cpp
   int getCountWhereMoreZeros(string *nums, int si) { // Argumentami są: wskaźnik na tablice oraz jej wielkość
     int moreZerosCount = 0;                          // Inicjujemy ilość szukanych liczb z wartością startową
     int oneCounter, zeroCounter, index;              // Licznik jedynek, dwojek oraz
@@ -734,7 +734,7 @@ TBA
 
     return moreZerosCount;                           // Zwracamy ilość wyrazow
   }
-  ```
+```
 ---
 
   * **4.2**  
@@ -746,7 +746,7 @@ TBA
   ```
 
   Funkcje sprawdzającą czy liczba jest podzielna przez 2 w C++ można zapisać w ten sposob:
-  ```cpp
+```cpp
   int getEvenNumbersCount(string *nums, int si) { // Wskaźnik na tablice i wielkość
     int evenNumber = 0;                           // Ilość startowa liczb parzystych
     int lastIndex;                                // Ostatni znak ciągu
@@ -760,10 +760,10 @@ TBA
 
     return evenNumber;                            // Zwracamy ilość liczb parzystych
   }
-  ```
+```
 
   Natomiast funkcje wypisującą liczby podzielne przez 8 w ten sposob:
-  ```cpp
+```cpp
   int getEightCount(string *nums, int si) {             // To samo co w poprzednich
     int eightDiv = 0;                                   // przypadkach
     int lastIndex;                                      //
@@ -784,7 +784,7 @@ TBA
 
     return eightDiv;                                    // Zwracamy ilość liczb
   }
-  ```
+```
 ---
 
   * **4.3**
@@ -796,7 +796,7 @@ TBA
   ```
 
   Funkcja wyszukująca wartość najmniejszą zaimplementowana w C++:
-  ```cpp
+```cpp
   int getMinLine(string *nums, int si) {          // Wskaźnik na tablice oraz jej wielkość
     int minIndex = 0;                             // Startowy indeks liczby najmniejszej
     string minValue = nums[0];                    // Startowa wartość liczby najmniejszej
@@ -817,10 +817,10 @@ TBA
 
     return (minIndex + 1);                        // Zwracamy indeks najmniejszego dodając jeden
   }                                               // ponieważ indeks tablicy jest liczony od zera
-  ```
+```
   
   Funkcja wyszukująca wartość największą zaimplementowana w C++:
-  ```cpp
+```cpp
   int getMaxLine(string *nums, int si) {          // To samo co wyżej
     int maxIndex = 0;
     string maxValue = nums[0];
@@ -840,7 +840,7 @@ TBA
     }
     return (maxIndex + 1);
   }
-  ```
+```
 ---
 
 **5. Demografia**
@@ -885,8 +885,8 @@ TBA
     mieszkańcow w tym roku
   > Mamy też podać ilość wojewodztw w ktorych nastąpi efekt przeludnienia w latach 2014-2025 włącznie
   ```
-
-  TBA
+  
+  [Rozwiązanie zadania](https://www.youtube.com/watch?v=rXoJg0PnbWI)  
 
 ---
 **6. Formuła 1**  
@@ -1115,17 +1115,16 @@ while(!punkty.eof()) {
 
 punkty.close();
 ```
+  
+[WYKONANIE W EXCELU](https://youtu.be/dA_Y2hAZYLs)  
 
   * **4.1**
   ```
   > Wypisujemy ile punktow należy do wnętrza koła, nie licząc jego brzegu
   ```
-
-  Excel:  
-  TBA  
     
   C++:
-  ```cpp
+```cpp
 // Rownanie okręgu o środku w punkcie S = (a, b) i r > 0
 // r^2 = (x - a)^2 + (y - b)^2
 bool insideCircle(int x, int y, int a, int b) {
@@ -1154,7 +1153,7 @@ for (int i = 0; i < 10000; i++) {
 }
 
 cout << iloscWKole;
-  ```
+```
 
 ---
 
@@ -1164,11 +1163,8 @@ cout << iloscWKole;
   > Oblicz dla 1000, 5000 i wszystkich punktow
   ```
 
-  Excel:  
-  TBA  
-
   C++:
-  ```cpp
+```cpp
 // Dodajemy funkcje sprawdzającą czy punkt znajduje się na okręgu
 bool inCircle(int x, int y, int a, int b) {
   int left = (x - a) * (x - a);
@@ -1213,17 +1209,7 @@ iloscWKole * 400 * 400 / ilePunktow * 200 * 200 = pi
 float pi = ((iloscWKole + iloscNaKole) * (bok * bok)) / (ilePunktow * (a * a));
 
 cout << pi;
-  ```
-
----
-
-  * **4.3**
-  ```
-  > TBA
-  ```
-
-  Excel:  
-  TBA  
+```
 
 ---
 
@@ -1238,7 +1224,7 @@ TBA
   > Zaszyfrowanie słow z kluczem rownym 107
   ```
 
-  ```cpp
+```cpp
 // Funkcja szyfrująca
 char encrypt(char c) {
   int k = 107;                                    // klucz
@@ -1289,7 +1275,7 @@ for (int i = 0; i < 100; i++)                     // Zapis do pliku
   wynik << slowa[i] << endl;
 
 wynik.close();
-  ```
+```
 
 ---
 
@@ -1298,7 +1284,7 @@ wynik.close();
   > Rozszyfrowywanie słow o kluczu podanym obok zaszyfrowanego słowa
   ```
 
-  ```cpp
+```cpp
 // Funkcja deszyfrująca
 char decrypt(char c, int key) {
   int k = key % 26;
@@ -1349,7 +1335,7 @@ for (int i = 0; i < 3000; i++) {
     j++;
   }
 }
-  ```
+```
 
 ---
 
@@ -1359,7 +1345,7 @@ for (int i = 0; i < 3000; i++) {
   > Mamy znaleźć i wypisać linijki ktore zostały źle zaszyfrowane
   ```
 
-  ```cpp
+```cpp
 // Funkcja znajdująca klucz
 int findKey(char a, char b) {
   a = (int)a % 26;
@@ -1427,7 +1413,7 @@ for (int i = 0; i < 3000; i++) {
   if (!correct)                                           // Jeżeli słowo jest niepoprawnie
     wynik3 << slowaNieszy[i] << endl;                     // zaszyfrowane, zapisujemy je
 }
-  ```
+```
 ## 2017
 ## Pisemny
 ---
@@ -1621,7 +1607,7 @@ licz(1) -> licz(2) -> licz(4) -> licz(8) -> licz(16) -> licz(33) -> licz(67) -> 
 
 ## Praktyka
 **Słodzik**  
-TBA
+[Rozwiązanie](https://www.youtube.com/watch?v=TOG5DLFDyGw)
 
 ---
 
