@@ -890,7 +890,8 @@ TBA
 
 ---
 **6. Formuła 1**  
-TBA
+[Rozwiązanie](https://www.youtube.com/watch?v=tYScoVnNDEI)
+
 ## 2016
 ## Pisemny
 ---
@@ -1612,7 +1613,7 @@ licz(1) -> licz(2) -> licz(4) -> licz(8) -> licz(16) -> licz(33) -> licz(67) -> 
 ---
 
 **Fanka**  
-TBA
+[Rozwiązanie](https://www.youtube.com/watch?v=2CaXYgw54xc)
 
 ---
 
