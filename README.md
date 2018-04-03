@@ -1730,74 +1730,34 @@ cout << "Najmniejsza liczba wierszy do usunięcia: " << mirror(pixels) << endl; 
   * **6.3**
 ```cpp
 int findContrast(int** arr) {
-  int howMany = 0;                                              // Ile pikseli kontrastujących
-  int firstCondition, secondCondition, thirdCondition, fourthCondition;
+  int licznik = 0;
 
-// Z każdego sprawdzemia musimy wyciągnąć wartość absoultną np: 7 - 137 = -130, co nadal jest kontrastujące
-  for (int row = 1; row < 199; row++) {           // Przeszukujemy tablice bez pierwszego i ostatniego wiersza
-    for (int col = 1; col < 319; col++) {         // Przeszukujemy tablice bez pierwszej i ostatniej kolumny
-      firstCondition = abs(arr[row][col] - arr[row - 1][col]);  // Wiersz w gore
-      secondCondition = abs(arr[row][col] - arr[row + 1][col]); // Wiersz w doł
-      thirdCondition = abs(arr[row][col] - arr[row][col - 1]);  // Columna w lewo
-      fourthCondition = abs(arr[row][col] - arr[row][col + 1]); // Columna w prawo
+  for (int row = 0; row < 200; row++) {
+    for (int col = 0; col < 320; col++) {
 
-      if (firstCondition > 128 ||                               // Jeżeli spełnia choć jeden warunek
-        secondCondition > 128 ||                                // Jest to piksel kontrastujący
-        thirdCondition > 128 || 
-        fourthCondition > 128) {
-          howMany++;                                            // Więc zwiększamy jego ilość
+      if (col < 319 && (abs(arr[row][col] - arr[row][col + 1]) > 128)) {
+        licznik++;
+        continue;
+      }
+
+      if (col > 0 && (abs(arr[row][col] - arr[row][col - 1]) > 128)) {
+        licznik++;
+        continue;
+      }
+
+      if (row < 199 && (abs(arr[row][col] - arr[row + 1][col]) > 128)) {
+        licznik++;
+        continue;
+      }
+
+      if (row > 0 && (abs(arr[row][col] - arr[row - 1][col]) > 128)) {
+        licznik++;
+        continue;
       }
     }
   }
 
-  for (int col = 1; col < 319; col++) {                         // Przeszukujemy pozostałe wiersze bez rogow
-    if ((abs(arr[0][col] - arr[0][col + 1]) > 128) ||           // Pierwszy wiersz
-      ((abs(arr[0][col] - arr[0][col - 1]) > 128))) {
-        howMany++;
-    }
-    if ((abs(arr[199][col] - arr[199][col + 1]) > 128) ||       // Ostatni wiersz
-      ((abs(arr[199][col] - arr[199][col - 1]) > 128))) {
-        howMany++;
-    }
-  }
-
-  for (int row = 1; row < 199; row++) {                         // Przeszukujemy pozostałe kolumny bez rogow
-    if ((abs(arr[row][0] - arr[row + 1][0]) > 128) ||           // Pierwsza kolumna
-      (abs(arr[row][0] - arr[row - 1][0]) > 128)) {
-        howMany++;
-    }
-    if ((abs(arr[row][319] - arr[row + 1][319]) > 128) ||       // Ostatnia kolumna
-      (abs(arr[row][319] - arr[row - 1][319]) > 128)) {
-        howMany++;
-    }
-  }
-
-  if ((abs(arr[0][0] - arr[0][1]) > 128)) {                     // Lewy gorny rog
-    howMany++;
-    if (abs(arr[0][0] - arr[1][0]) > 128) {
-      howMany++;
-    }
-  }
-  if ((abs(arr[0][319] - arr[0][318]) > 128)) {                 // Prawy gorny rog
-    howMany++;
-    if (abs(arr[0][319] - arr[1][319]) > 128) {
-      howMany++;
-    }
-  }
-  if ((abs(arr[199][0] - arr[199][1]) > 128)) {                 // Lewy dolny rog
-    howMany++;
-    if (abs(arr[199][0] - arr[198][0]) > 128) {
-      howMany++;
-    }
-  }
-  if ((abs(arr[199][319] - arr[198][319]) > 128)) {             // Prawy dolny rog
-    howMany++;
-    if (abs(arr[199][319] - arr[199][318]) > 128) {
-      howMany++;
-    }
-  }
-
-  return howMany;                                               // Zwracamy ilość pikseli
+  return licznik;   // Zwraca 757, zamiast 753 jak w odpowiedzi, nie mam pojęcia dlaczego
 }
 
 cout << "Sasiednie piksele: " << findContrast(pixels) << endl;  // 753
